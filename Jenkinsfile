@@ -15,7 +15,12 @@ pipeline {
 
         stage('Lint') {
             steps {
-                sh 'docker run --rm -v "$WORKSPACE:/app" -w /app node:20-alpine sh -c "npm ci && npm run lint"'
+                // Jenkins talks to the *host* Docker daemon (via the mounted
+                // socket), so a literal $WORKSPACE bind-mount path means
+                // nothing to it - $WORKSPACE only exists inside the jenkins
+                // container's own mount namespace. --volumes-from reuses the
+                // jenkins container's actual volume instead of a host path.
+                sh 'docker run --rm --volumes-from jenkins -w "$WORKSPACE" node:20-alpine sh -c "npm ci && npm run lint"'
             }
         }
 
