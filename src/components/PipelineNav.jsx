@@ -47,6 +47,11 @@ export default function PipelineNav({ active }) {
         className="absolute left-[4.5px] top-[14px] w-px bg-base-line -z-10"
         style={{ height: `${(STAGES.length - 1) * 48}px` }}
       />
+      {/* animated fill tracking progress through the pipeline */}
+      <div
+        className="absolute left-[4.5px] top-[14px] w-px bg-teal-bright -z-10 transition-[height] duration-500 ease-out"
+        style={{ height: `${Math.max(activeIndex, 0) * 48}px` }}
+      />
     </nav>
   );
 }
