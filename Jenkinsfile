@@ -15,8 +15,7 @@ pipeline {
 
         stage('Lint') {
             steps {
-                sh 'npm ci'
-                sh 'npm run lint'
+                sh 'docker run --rm -v "$WORKSPACE:/app" -w /app node:20-alpine sh -c "npm ci && npm run lint"'
             }
         }
 
